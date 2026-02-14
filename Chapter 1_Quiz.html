@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eco-Humour Knowledge Quiz</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .quiz-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 800px;
+            width: 100%;
+            padding: 40px;
+        }
+
+        .quiz-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .quiz-header h1 {
+            color: #27ae60;
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .quiz-subtitle {
+            color: #666;
+            font-size: 0.95em;
+            margin-bottom: 20px;
+        }
+
+        .progress-bar {
+            background: #e0e0e0;
+            height: 10px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #2ecc71, #27ae60);
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .question-counter {
+            color: #666;
+            font-size: 0.9em;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .question-container {
+            margin-bottom: 30px;
+        }
+
+        .question {
+            font-size: 1.25em;
+            color: #333;
+            margin-bottom: 25px;
+            line-height: 1.6;
+            font-weight: 500;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .option {
+            background: #f8f9fa;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 18px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1em;
+            line-height: 1.5;
+        }
+
+        .option:hover {
+            background: #e8f5e9;
+            border-color: #2ecc71;
+            transform: translateX(5px);
+        }
+
+        .option.selected {
+            background: #2ecc71;
+            color: white;
+            border-color: #2ecc71;
+        }
+
+        .option.correct {
+            background: #27ae60;
+            color: white;
+            border-color: #27ae60;
+        }
+
+        .option.incorrect {
+            background: #e74c3c;
+            color: white;
+            border-color: #e74c3c;
+        }
+
+        .option.disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        .explanation {
+            background: #e8f5e9;
+            border-left: 4px solid #27ae60;
+            padding: 15px 20px;
+            margin-top: 20px;
+            border-radius: 5px;
+            display: none;
+            font-size: 0.95em;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .explanation.show {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .explanation strong {
+            color: #27ae60;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.1em;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(46, 204, 113, 0.4);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .results {
+            text-align: center;
+            display: none;
+        }
+
+        .results.show {
+            display: block;
+        }
+
+        .score {
+            font-size: 3em;
+            color: #27ae60;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+
+        .results h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .score-message {
+            font-size: 1.2em;
+            color: #666;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .restart-btn {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+        }
+
+        .emoji {
+            font-size: 4em;
+            margin-bottom: 20px;
+        }
+
+        .reference {
+            font-size: 0.85em;
+            color: #7f8c8d;
+            font-style: italic;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <div class="quiz-header">
+            <h1>🌱 Eco-Humour Research Quiz</h1>
+            <div class="quiz-subtitle">Test your knowledge on environmental humour scholarship</div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="question-counter" id="questionCounter">Question 1 of 10</div>
+        </div>
+
+        <div id="quizContent">
+            <div class="question-container">
+                <div class="question" id="question"></div>
+                <div class="options" id="options"></div>
+                <div class="explanation" id="explanation"></div>
+            </div>
+
+            <div class="btn-container">
+                <button class="btn" id="nextBtn" onclick="nextQuestion()" disabled>Next Question</button>
+            </div>
+        </div>
+
+        <div class="results" id="results">
+            <div class="emoji" id="resultEmoji"></div>
+            <h2>Quiz Complete!</h2>
+            <div class="score" id="finalScore"></div>
+            <div class="score-message" id="scoreMessage"></div>
+            <button class="btn restart-btn" onclick="restartQuiz()">Try Again</button>
+        </div>
+    </div>
+
+    <script>
+        const quizData = [
+            {
+                question: "According to Heidari-Shahreza (2023), what fundamental characteristic distinguishes eco-humour from conventional humour?",
+                options: [
+                    "It only addresses climate change issues",
+                    "It transcends anthropocentric concerns to foreground the ecosphere as 'humour beyond human'",
+                    "It must be delivered through digital platforms",
+                    "It exclusively uses visual comedy forms"
+                ],
+                correct: 1,
+                explanation: "Eco-humour fundamentally 'transcends anthropocentric concerns to foreground the ecosphere,' making it 'humour beyond human' (Heidari-Shahreza, 2023). This shifts focus from human-centered perspectives to ecological systems themselves."
+            },
+            {
+                question: "Which literary authors established precedents for contemporary climate fiction by infusing ecocatastrophe stories with 'scathingly bitter irony'?",
+                options: [
+                    "Jane Austen, Charles Dickens, and Mark Twain",
+                    "Kurt Vonnegut, Kim Stanley Robinson, and John Brunner",
+                    "Margaret Atwood, Ian McEwan, and Rachel Carson",
+                    "George Orwell, Aldous Huxley, and Ray Bradbury"
+                ],
+                correct: 1,
+                explanation: "Post-war science fiction authors Kurt Vonnegut, Kim Stanley Robinson, and John Brunner infused ecocatastrophe stories with 'scathingly bitter irony,' establishing precedents for contemporary climate fiction (Stableford, 2005)."
+            },
+            {
+                question: "What strategic advantage does eco-humour's 'deniability' provide according to Attardo (2020)?",
+                options: [
+                    "It allows communicators to avoid copyright issues",
+                    "It enables raising environmental concerns under the protective ambiguity of 'I was just joking'",
+                    "It prevents audiences from taking messages seriously",
+                    "It reduces the need for scientific evidence"
+                ],
+                correct: 1,
+                explanation: "Eco-humour's deniability enables communicators to raise environmental concerns under the protective ambiguity of 'I was just joking,' a strategic advantage particularly valuable in restrictive contexts (Attardo, 2020)."
+            },
+            {
+                question: "According to experimental studies by Bonnici et al. (2023), what effect does pairing humorous cartoons with factual environmental messages produce?",
+                options: [
+                    "Decreased credibility of the message",
+                    "No significant difference from factual messages alone",
+                    "Greater audience response, sharing behaviour, and declared intent to change behaviour",
+                    "Confusion about the intended message"
+                ],
+                correct: 2,
+                explanation: "Experimental studies confirm that pairing humorous cartoons with factual environmental messages generates greater audience response, sharing behaviour, and declared intent to change behaviour than factual messages alone (Bonnici et al., 2023)."
+            },
+            {
+                question: "Which relationship predictor emerged as stronger in Herzog & Strevey's (2008) study on well-being?",
+                options: [
+                    "Nature contact was stronger than sense of humour",
+                    "Both were equally strong predictors",
+                    "Sense of humour was stronger than nature contact",
+                    "Neither was a significant predictor"
+                ],
+                correct: 2,
+                explanation: "Sense of humour and nature contact function as complementary pathways to well-being, with humour emerging as the stronger predictor of personal development (Herzog & Strevey, 2008)."
+            },
+            {
+                question: "What paradoxical effect did Nabi et al. (2007) identify regarding humorous environmental messages?",
+                options: [
+                    "They increase attention but may be discounted as irrelevant to attitudinal judgments",
+                    "They decrease motivation but increase behavioral change",
+                    "They work better in print than digital media",
+                    "They are more effective with older audiences"
+                ],
+                correct: 0,
+                explanation: "Humorous messages may heighten processing motivation yet be discounted upon exposure, yielding fleeting amusement rather than sustained reflection—they enhance attention and reduce counterargument but risk being discounted as irrelevant to attitudinal judgments (Nabi et al., 2007)."
+            },
+            {
+                question: "What major gap does Lyytimäki (2022) identify in eco-humour research?",
+                options: [
+                    "Lack of quantitative research methods",
+                    "Informal, spontaneous face-to-face environmental humour in everyday conversations remains understudied",
+                    "Too much focus on non-Western contexts",
+                    "Insufficient attention to social media platforms"
+                ],
+                correct: 1,
+                explanation: "Informal, spontaneous face-to-face environmental humour in everyday conversations, lobbying, and unofficial negotiations remains understudied despite its potential influence on environmental attitudes, a gap stemming from data collection challenges (Lyytimäki, 2022)."
+            },
+            {
+                question: "According to Spanish environmental educators (Alcántara-Manzanares et al., 2024), which types of humour are potentially appropriate for environmental education?",
+                options: [
+                    "Aggressive, mocking, and banal humour",
+                    "Only slapstick and physical comedy",
+                    "Intelligent, ironic, playful, and black humour",
+                    "Exclusively positive and cheerful humour"
+                ],
+                correct: 2,
+                explanation: "Spanish environmental educators identify intelligent, ironic, playful, and black humour as potentially appropriate, while cautioning against hurtful, aggressive, mocking, or banal varieties (Alcántara-Manzanares et al., 2024)."
+            },
+            {
+                question: "What did Lyytimäki's (2022) review of 'Humour – International Journal of Humour Research' reveal about environmental topics?",
+                options: [
+                    "Environmental humour was the most studied topic",
+                    "About half the articles addressed environmental themes",
+                    "No articles had environmental keywords in titles, indicating systematic neglect",
+                    "Environmental humour received moderate attention"
+                ],
+                correct: 2,
+                explanation: "A review of Humour – International Journal of Humour Research found no articles with environmental keywords in titles, indicating systematic neglect of environmental topics within humour research (Lyytimäki, 2022)."
+            },
+            {
+                question: "What dual nature does eco-humour possess according to Lyytimäki (2022) and Stewart & Clark (2011)?",
+                options: [
+                    "It works only in written or only in visual formats",
+                    "It can foster environmental awareness yet also ridicule environmentalists or advance greenwashing",
+                    "It is effective only with educated or only with general audiences",
+                    "It functions solely as entertainment without political dimensions"
+                ],
+                correct: 1,
+                explanation: "Critically, eco-humour can serve both progressive and regressive ends: it may foster environmental awareness and activism, yet it can also ridicule environmentalists, trivialize ecological crises, or advance greenwashing campaigns (Lyytimäki, 2022; Stewart & Clark, 2011)."
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let selectedAnswer = null;
+
+        function loadQuestion() {
+            const data = quizData[currentQuestion];
+            document.getElementById('question').textContent = data.question;
+            document.getElementById('questionCounter').textContent = `Question ${currentQuestion + 1} of ${quizData.length}`;
+            
+            const progressPercent = ((currentQuestion + 1) / quizData.length) * 100;
+            document.getElementById('progressFill').style.width = progressPercent + '%';
+
+            const optionsContainer = document.getElementById('options');
+            optionsContainer.innerHTML = '';
+
+            data.options.forEach((option, index) => {
+                const optionDiv = document.createElement('div');
+                optionDiv.className = 'option';
+                optionDiv.textContent = option;
+                optionDiv.onclick = () => selectAnswer(index);
+                optionsContainer.appendChild(optionDiv);
+            });
+
+            document.getElementById('explanation').classList.remove('show');
+            document.getElementById('nextBtn').disabled = true;
+            document.getElementById('nextBtn').textContent = currentQuestion < quizData.length - 1 ? 'Next Question' : 'See Results';
+            selectedAnswer = null;
+        }
+
+        function selectAnswer(index) {
+            if (selectedAnswer !== null) return;
+
+            selectedAnswer = index;
+            const options = document.querySelectorAll('.option');
+            const correctAnswer = quizData[currentQuestion].correct;
+
+            options.forEach((option, idx) => {
+                option.classList.add('disabled');
+                if (idx === correctAnswer) {
+                    option.classList.add('correct');
+                }
+                if (idx === index && idx !== correctAnswer) {
+                    option.classList.add('incorrect');
+                }
+            });
+
+            if (index === correctAnswer) {
+                score++;
+            }
+
+            // Show explanation
+            const explanationDiv = document.getElementById('explanation');
+            explanationDiv.innerHTML = `<strong>${index === correctAnswer ? '✓ Correct!' : '✗ Incorrect'}</strong>${quizData[currentQuestion].explanation}`;
+            explanationDiv.classList.add('show');
+
+            document.getElementById('nextBtn').disabled = false;
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+            
+            if (currentQuestion < quizData.length) {
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            document.getElementById('quizContent').style.display = 'none';
+            document.getElementById('results').classList.add('show');
+            
+            const percentage = (score / quizData.length) * 100;
+            document.getElementById('finalScore').textContent = `${score} / ${quizData.length}`;
+            
+            let emoji, message;
+            if (percentage === 100) {
+                emoji = '🏆';
+                message = 'Perfect score! You have mastered the eco-humour literature. Your comprehensive understanding of this interdisciplinary field is exceptional!';
+            } else if (percentage >= 80) {
+                emoji = '🌟';
+                message = 'Excellent work! You demonstrate strong knowledge of eco-humour research. You\'re well-versed in the key concepts and scholarly debates!';
+            } else if (percentage >= 60) {
+                emoji = '📚';
+                message = 'Good effort! You have a solid foundation in eco-humour studies. Review the explanations to deepen your understanding of this emerging field.';
+            } else {
+                emoji = '🌱';
+                message = 'Keep learning! Eco-humour is a complex interdisciplinary field. Consider reviewing the literature to strengthen your grasp of these concepts.';
+            }
+            
+            document.getElementById('resultEmoji').textContent = emoji;
+            document.getElementById('scoreMessage').textContent = message;
+        }
+
+        function restartQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            selectedAnswer = null;
+            document.getElementById('quizContent').style.display = 'block';
+            document.getElementById('results').classList.remove('show');
+            loadQuestion();
+        }
+
+        // Initialize quiz
+        loadQuestion();
+    </script>
+</body>
+</html>
