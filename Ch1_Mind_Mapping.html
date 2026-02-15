@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eco-Humour Mind Map</title>
+    <style>
+        :root {
+            --bg-color: #f4f7f6;
+            --line-color: #bdc3c7;
+            --root-bg: #2c3e50;
+            --branch-1: #27ae60; /* Definitions */
+            --branch-2: #2980b9; /* Intersection */
+            --branch-3: #e67e22; /* Politics/Ethics */
+            --branch-4: #8e44ad; /* Academic Scope */
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        h1 { color: #2c3e50; margin-bottom: 10px; }
+        p.desc { margin-bottom: 30px; color: #7f8c8d; }
+
+        .mindmap-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        /* Root Node */
+        .node-root {
+            background: var(--root-bg);
+            color: white;
+            padding: 20px 40px;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1.5em;
+            z-index: 10;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        /* Branch Container */
+        .branches {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            margin-top: 50px;
+            gap: 20px;
+        }
+
+        .branch {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+        }
+
+        /* Node Styling */
+        .node {
+            padding: 12px 18px;
+            border-radius: 8px;
+            margin: 10px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            font-size: 0.95em;
+            position: relative;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            width: 180px;
+        }
+
+        .node:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        /* Hidden Content Styling */
+        .content {
+            display: none;
+            background: #fff;
+            color: #333;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 0.85em;
+            margin-top: 5px;
+            border: 1px solid #ddd;
+            width: 200px;
+            z-index: 5;
+        }
+
+        /* Colors for specific branches */
+        .b1 { border: 2px solid var(--branch-1); background: white; color: var(--branch-1); font-weight: bold; }
+        .b2 { border: 2px solid var(--branch-2); background: white; color: var(--branch-2); font-weight: bold; }
+        .b3 { border: 2px solid var(--branch-3); background: white; color: var(--branch-3); font-weight: bold; }
+        .b4 { border: 2px solid var(--branch-4); background: white; color: var(--branch-4); font-weight: bold; }
+
+        .active .content { display: block; }
+
+        /* Lines (Simplified via pseudo-elements) */
+        .branch::before {
+            content: "";
+            position: absolute;
+            top: 60px;
+            height: 2px;
+            background: var(--line-color);
+            z-index: -1;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Eco-Humour Mind Map</h1>
+    <p class="desc">Click on each node to reveal the key identifying features and scholars.</p>
+
+    <div class="mindmap-container">
+        <div class="node-root">ECO-HUMOUR</div>
+
+        <div class="branches">
+            <div class="branch">
+                <div class="node b1" onclick="toggle(this)">
+                    Definitions
+                    <div class="content">
+                        <strong>Umbrella Term:</strong> Cartoons, memes, stand-up.<br><br>
+                        <strong>Rhetorical Devices:</strong> Irony, exaggeration, metaphor.<br><br>
+                        <strong>"Humour Beyond Human":</strong> Transcending anthropocentrism. (Heidari-Shahreza)
+                    </div>
+                </div>
+                <div class="node b1" onclick="toggle(this)">
+                    Characteristics
+                    <div class="content">
+                        <strong>Strategic Advantages:</strong> Versatility, deniability, polysemy.<br><br>
+                        <strong>Incongruity:</strong> Mismatch between ecological observation and expectation. (Lyytimäki)
+                    </div>
+                </div>
+            </div>
+
+            <div class="branch">
+                <div class="node b2" onclick="toggle(this)">
+                    Intersections
+                    <div class="content">
+                        <strong>Environmental Education:</strong> Avoiding "doom and gloom" messaging.<br><br>
+                        <strong>Literature:</strong> Speculative fiction (Atwood) and Sci-Fi irony (Vonnegut).
+                    </div>
+                </div>
+                <div class="node b2" onclick="toggle(this)">
+                    Psychological Impact
+                    <div class="content">
+                        <strong>Cognitive Lens:</strong> Increases attention & accessibility.<br><br>
+                        <strong>Emotional Regulation:</strong> Activates limbic system for tension relief. (Martin & Ford)
+                    </div>
+                </div>
+            </div>
+
+            <div class="branch">
+                <div class="node b3" onclick="toggle(this)">
+                    Politics & Ethics
+                    <div class="content">
+                        <strong>"Comic Corrective":</strong> Makes societal change palatable.<br><br>
+                        <strong>Ethical Risks:</strong> Trivialization, greenwashing, or offense. (Navasky)
+                    </div>
+                </div>
+                <div class="node b3" onclick="toggle(this)">
+                    Humour Types
+                    <div class="content">
+                        <strong>Constructive:</strong> Irony, playful, black humour.<br><br>
+                        <strong>Harmful:</strong> Aggressive, hurtful, or banal varieties.
+                    </div>
+                </div>
+            </div>
+
+            <div class="branch">
+                <div class="node b4" onclick="toggle(this)">
+                    Scope & Gaps
+                    <div class="content">
+                        <strong>Exclusions:</strong> Generic humour or non-environmental movements.<br><br>
+                        <strong>Gaps:</strong> Lack of Non-Western perspectives & spontaneous interactional humour.
+                    </div>
+                </div>
+                <div class="node b4" onclick="toggle(this)">
+                    Academic Position
+                    <div class="content">
+                        <strong>Marginalized:</strong> Peripheral to parent disciplines like Humour Studies.<br><br>
+                        <strong>Interdisciplinary:</strong> Bridges Natural Sciences & Humanities.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggle(element) {
+            element.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>
