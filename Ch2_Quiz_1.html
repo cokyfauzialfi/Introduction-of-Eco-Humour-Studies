@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historical Eco-Humour Quiz</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #8e44ad 0%, #3498db 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .quiz-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 850px;
+            width: 100%;
+            padding: 40px;
+        }
+
+        .quiz-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .quiz-header h1 {
+            color: #8e44ad;
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .quiz-subtitle {
+            color: #666;
+            font-size: 0.95em;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .progress-bar {
+            background: #e0e0e0;
+            height: 10px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #8e44ad, #3498db);
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .question-counter {
+            color: #666;
+            font-size: 0.9em;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .question-container {
+            margin-bottom: 30px;
+        }
+
+        .question {
+            font-size: 1.25em;
+            color: #333;
+            margin-bottom: 25px;
+            line-height: 1.6;
+            font-weight: 500;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .option {
+            background: #f8f9fa;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 18px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1em;
+            line-height: 1.5;
+        }
+
+        .option:hover {
+            background: #e8e3f3;
+            border-color: #8e44ad;
+            transform: translateX(5px);
+        }
+
+        .option.selected {
+            background: #8e44ad;
+            color: white;
+            border-color: #8e44ad;
+        }
+
+        .option.correct {
+            background: #27ae60;
+            color: white;
+            border-color: #27ae60;
+        }
+
+        .option.incorrect {
+            background: #e74c3c;
+            color: white;
+            border-color: #e74c3c;
+        }
+
+        .option.disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        .explanation {
+            background: #f0e7f7;
+            border-left: 4px solid #8e44ad;
+            padding: 15px 20px;
+            margin-top: 20px;
+            border-radius: 5px;
+            display: none;
+            font-size: 0.95em;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .explanation.show {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .explanation strong {
+            color: #8e44ad;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #8e44ad, #3498db);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.1em;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(142, 68, 173, 0.4);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .results {
+            text-align: center;
+            display: none;
+        }
+
+        .results.show {
+            display: block;
+        }
+
+        .score {
+            font-size: 3em;
+            color: #8e44ad;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+
+        .results h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .score-message {
+            font-size: 1.2em;
+            color: #666;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .restart-btn {
+            background: linear-gradient(135deg, #e67e22, #d35400);
+        }
+
+        .emoji {
+            font-size: 4em;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <div class="quiz-header">
+            <h1>📜 Historical Eco-Humour Quiz</h1>
+            <div class="quiz-subtitle">From ancient pastoral comedy to 20th-century environmental satire</div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="question-counter" id="questionCounter">Question 1 of 12</div>
+        </div>
+
+        <div id="quizContent">
+            <div class="question-container">
+                <div class="question" id="question"></div>
+                <div class="options" id="options"></div>
+                <div class="explanation" id="explanation"></div>
+            </div>
+
+            <div class="btn-container">
+                <button class="btn" id="nextBtn" onclick="nextQuestion()" disabled>Next Question</button>
+            </div>
+        </div>
+
+        <div class="results" id="results">
+            <div class="emoji" id="resultEmoji"></div>
+            <h2>Quiz Complete!</h2>
+            <div class="score" id="finalScore"></div>
+            <div class="score-message" id="scoreMessage"></div>
+            <button class="btn restart-btn" onclick="restartQuiz()">Try Again</button>
+        </div>
+    </div>
+
+    <script>
+        const quizData = [
+            {
+                question: "According to Revermann (2014), how did Greek comedy engage with the natural world?",
+                options: [
+                    "As mere decorative backdrop for human drama",
+                    "As a site of ideological contest and comic invention",
+                    "Only through mythological representations",
+                    "Exclusively in agricultural instruction manuals"
+                ],
+                correct: 1,
+                explanation: "Greek comedy engaged the natural world not as backdrop, but as a site of ideological contest and comic invention (Revermann, 2014), making nature central to the theatrical imagination rather than peripheral."
+            },
+            {
+                question: "How did Fontaine (2014) characterize Roman comedy's relationship to Greek theatrical traditions?",
+                options: [
+                    "As direct translation preserving Greek forms",
+                    "As complete rejection of Greek influence",
+                    "As 'operatic adaptation'—fundamental reimagining for new cultural contexts",
+                    "As simplified versions for less educated audiences"
+                ],
+                correct: 2,
+                explanation: "Roman comedy inherited Greek frameworks, transforming them through what Fontaine describes as 'operatic adaptation.' This was not translation, but a fundamental reimagining for new cultural contexts (Fontaine, 2014)."
+            },
+            {
+                question: "In Cicero's De Legibus, what function did Tsouni (2023) identify for the pastoral scene at Arpinum?",
+                options: [
+                    "Purely aesthetic decoration without deeper meaning",
+                    "A symbolic assertion of ancestral values tied to agricultural life that guarantees Rome's political future",
+                    "A retreat from political concerns into private contemplation",
+                    "An economic argument for agricultural investment"
+                ],
+                correct: 1,
+                explanation: "Tsouni argues that Cicero enacts a connection linking the rural locus of discussion to ancestral values, a connection that guarantees Rome's political future (Tsouni, 2023). The pastoral scene functions as symbolic political assertion, not mere decoration."
+            },
+            {
+                question: "What satirical target does Aristophanes' Birds (414 BCE) exemplify in Old Comedy?",
+                options: [
+                    "Military incompetence in naval warfare",
+                    "Human attempts at utopian city-building in the sky, usurping divine and natural order",
+                    "Agricultural laziness among rural populations",
+                    "Trade relationships with foreign cities"
+                ],
+                correct: 1,
+                explanation: "Aristophanes' Birds (414 BCE) exemplifies the satirization of human presumption through its mock-heroic depiction of humans attempting utopian city-building in the sky, an act that usurps both divine and natural order."
+            },
+            {
+                question: "According to Germany (2019), what political circumstances shaped Roman comedy's satirical engagement?",
+                options: [
+                    "Complete freedom of expression under republican government",
+                    "Indirect modes of cultural critique developed after the Naevius affair",
+                    "Imperial censorship requiring all plays to praise emperors",
+                    "Religious restrictions prohibiting nature themes"
+                ],
+                correct: 1,
+                explanation: "Roman comedy's satirical engagement operated through oblique mechanisms shaped by political caution following the Naevius affair (Germany, 2019). Plautus developed indirect modes of cultural critique as a result."
+            },
+            {
+                question: "What persistent dynamic in eco-humour does Epicharmus of Syracuse's work establish, according to the text?",
+                options: [
+                    "Nature always defeats human technology",
+                    "The expert becomes confounded, the planner undone, the engineer defeated by nonhuman vitality",
+                    "Rural populations possess superior wisdom to urban dwellers",
+                    "Gods always intervene to restore natural balance"
+                ],
+                correct: 1,
+                explanation: "Epicharmus established a persistent dynamic in eco-humour: the expert becomes confounded, the planner is undone, and the engineer is defeated by nonhuman vitality—a structure recognizable from ancient times to modern Australian cartoons mocking failed rabbit fencing."
+            },
+            {
+                question: "How did Renaissance river god representations function according to Lazzaro (2011)?",
+                options: [
+                    "Purely religious symbols without comedic elements",
+                    "Scientific diagrams explaining hydraulic engineering",
+                    "Comic personifications with gendered, sexualized bodies representing fertility and abundance",
+                    "Warnings against flood dangers"
+                ],
+                correct: 2,
+                explanation: "River gods functioned as comic personifications and political statements with gendered bodies, including explicitly sexualized comedy through features like penile water emissions. These were witty, if indecorous, representations within Katharine Park's 'regime of plenty' (Lazzaro, 2011)."
+            },
+            {
+                question: "What special license did the medieval court jester's marginality grant, according to Konarska-Zimnicka (2012)?",
+                options: [
+                    "Legal immunity from all prosecution",
+                    "The ability to mock courtly pretensions and expose environmental hypocrisies",
+                    "Exclusive access to royal hunting grounds",
+                    "Authority to make binding legal decisions"
+                ],
+                correct: 1,
+                explanation: "The jester's liminal status between civilization and nature, marked by physical features and animal-associated costume, granted special license to mock courtly pretensions and expose environmental hypocrisies (Konarska-Zimnicka, 2012)."
+            },
+            {
+                question: "What did Northrop Frye observe about Shakespeare's romantic comedies' relationship to nature?",
+                options: [
+                    "They consistently portrayed nature as dangerous and hostile",
+                    "They manifest movement from the normal world into 'the green world' where problems dissolve",
+                    "They avoided natural settings in favor of urban locations",
+                    "They treated nature purely as economic resource"
+                ],
+                correct: 1,
+                explanation: "Northrop Frye observed that Shakespeare's romantic comedies manifest a movement from the normal world into 'the green world,' where problems of the ordinary world dissolve (Abshavi, 2014), revealing an understanding that natural environments were morally superior to urban spaces."
+            },
+            {
+                question: "How did Swift's Gulliver's Travels (1726) satirize approaches to nature?",
+                options: [
+                    "By celebrating successful agricultural improvements",
+                    "Through the Academy of Lagado's absurd 'improvements' that left land barren",
+                    "By advocating for industrial development",
+                    "Through romantic idealization of primitive agriculture"
+                ],
+                correct: 1,
+                explanation: "Swift's Gulliver's Travels portrayed the Academy of Lagado showing absurd agricultural 'improvements' that left the land barren, serving as implicit critique of instrumentalist approaches to nature and establishing a template for environmental satire (Bullard, 2025)."
+            },
+            {
+                question: "What function did Romantic irony serve in Wordsworth's 'To Joanna' according to the analysis?",
+                options: [
+                    "Simple mockery of nature worship",
+                    "Acknowledgment that narrative and language cannot adequately represent transcendent natural phenomena, yet this generates indirect knowledge",
+                    "Celebration of human superiority over nature",
+                    "Rejection of all emotional responses to landscape"
+                ],
+                correct: 1,
+                explanation: "In 'To Joanna,' reverential attention to landscape beauty is shattered by laughter, performing Romantic irony's essential paradox: the text acknowledges the inability of narrative and language to adequately represent transcendent natural phenomena, yet this acknowledgment generates indirect knowledge concerning human-nature relationships (Hurst, 2025)."
+            },
+            {
+                question: "According to Kesebir and Kesebir (2017), what cultural transition occurred beginning in the 1950s?",
+                options: [
+                    "Increased nature references in all cultural products",
+                    "A 63% decline in nature-related words in popular song lyrics between the 1950s and 2000s",
+                    "Complete elimination of natural themes from cinema",
+                    "Government mandates requiring environmental content"
+                ],
+                correct: 1,
+                explanation: "Kesebir and Kesebir (2017) document references to nature in English fiction, song lyrics, and film storylines declining sharply after 1950, with a 63% decline in nature-related words in popular song lyrics between the 1950s and 2000s, while references to the human-built environment remained stable or increased."
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let selectedAnswer = null;
+
+        function loadQuestion() {
+            const data = quizData[currentQuestion];
+            document.getElementById('question').textContent = data.question;
+            document.getElementById('questionCounter').textContent = `Question ${currentQuestion + 1} of ${quizData.length}`;
+            
+            const progressPercent = ((currentQuestion + 1) / quizData.length) * 100;
+            document.getElementById('progressFill').style.width = progressPercent + '%';
+
+            const optionsContainer = document.getElementById('options');
+            optionsContainer.innerHTML = '';
+
+            data.options.forEach((option, index) => {
+                const optionDiv = document.createElement('div');
+                optionDiv.className = 'option';
+                optionDiv.textContent = option;
+                optionDiv.onclick = () => selectAnswer(index);
+                optionsContainer.appendChild(optionDiv);
+            });
+
+            document.getElementById('explanation').classList.remove('show');
+            document.getElementById('nextBtn').disabled = true;
+            document.getElementById('nextBtn').textContent = currentQuestion < quizData.length - 1 ? 'Next Question' : 'See Results';
+            selectedAnswer = null;
+        }
+
+        function selectAnswer(index) {
+            if (selectedAnswer !== null) return;
+
+            selectedAnswer = index;
+            const options = document.querySelectorAll('.option');
+            const correctAnswer = quizData[currentQuestion].correct;
+
+            options.forEach((option, idx) => {
+                option.classList.add('disabled');
+                if (idx === correctAnswer) {
+                    option.classList.add('correct');
+                }
+                if (idx === index && idx !== correctAnswer) {
+                    option.classList.add('incorrect');
+                }
+            });
+
+            if (index === correctAnswer) {
+                score++;
+            }
+
+            // Show explanation
+            const explanationDiv = document.getElementById('explanation');
+            explanationDiv.innerHTML = `<strong>${index === correctAnswer ? '✓ Correct!' : '✗ Incorrect'}</strong>${quizData[currentQuestion].explanation}`;
+            explanationDiv.classList.add('show');
+
+            document.getElementById('nextBtn').disabled = false;
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+            
+            if (currentQuestion < quizData.length) {
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            document.getElementById('quizContent').style.display = 'none';
+            document.getElementById('results').classList.add('show');
+            
+            const percentage = (score / quizData.length) * 100;
+            document.getElementById('finalScore').textContent = `${score} / ${quizData.length}`;
+            
+            let emoji, message;
+            if (percentage === 100) {
+                emoji = '🏆';
+                message = 'Outstanding! You have comprehensive mastery of the historical evolution of eco-humour from ancient pastoral comedy through 20th-century environmental satire. Your knowledge spans classical foundations, Renaissance allegory, Enlightenment critique, and modern environmental consciousness!';
+            } else if (percentage >= 80) {
+                emoji = '📚';
+                message = 'Excellent work! You demonstrate strong understanding of how environmental humour has evolved across historical periods. You grasp key theoretical frameworks and can trace the genealogy of eco-comic traditions from antiquity to modernity!';
+            } else if (percentage >= 60) {
+                emoji = '🎭';
+                message = 'Good effort! You have solid foundational knowledge of historical eco-humour. Review the explanations to deepen your understanding of how comedy and nature have intersected across different cultural moments and literary traditions.';
+            } else {
+                emoji = '🌿';
+                message: 'Keep exploring! The historical development of eco-humour is complex, spanning multiple millennia and diverse cultural contexts. Consider revisiting the material to strengthen your grasp of these rich comedic traditions and their environmental dimensions.';
+            }
+            
+            document.getElementById('resultEmoji').textContent = emoji;
+            document.getElementById('scoreMessage').textContent = message;
+        }
+
+        function restartQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            selectedAnswer = null;
+            document.getElementById('quizContent').style.display = 'block';
+            document.getElementById('results').classList.remove('show');
+            loadQuestion();
+        }
+
+        // Initialize quiz
+        loadQuestion();
+    </script>
+</body>
+</html>
