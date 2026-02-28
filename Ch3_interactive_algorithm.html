@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eco-Humor Theory Classifier</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .flow-node {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .flow-node:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.1);
+        }
+        .active-path {
+            border: 3px solid #059669 !important;
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
+        }
+        .line-active {
+            stroke: #10b981 !important;
+            stroke-width: 3;
+        }
+        .result-card {
+            display: none;
+        }
+        .result-card.show {
+            display: block;
+            animation: fadeIn 0.5s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen p-4 md:p-8 font-sans">
+
+    <div class="max-w-4xl mx-auto">
+        <header class="mb-10 text-center">
+            <h1 class="text-3xl font-bold text-slate-800 mb-2">Eco-Humor Theoretical Algorithm</h1>
+            <p class="text-slate-600">Click the nodes to navigate the decision tree for fitting your study to a framework.</p>
+        </header>
+
+        <!-- Algorithm Container -->
+        <div class="bg-white rounded-2xl shadow-xl p-6 md:p-10 relative overflow-hidden">
+            
+            <!-- Step 1: Primary Intent -->
+            <div id="step-1" class="mb-12">
+                <div class="flex justify-center mb-6">
+                    <div class="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold shadow-md">
+                        START: Define Primary Intent
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <button onclick="selectPath('intent', 'subversion', this)" class="flow-node border-2 border-slate-200 p-6 rounded-xl text-left bg-white hover:bg-slate-50">
+                        <span class="block text-xs font-bold uppercase text-blue-600 mb-1">Path A</span>
+                        <h3 class="text-xl font-bold text-slate-800">Subversion & Change</h3>
+                        <p class="text-slate-500 text-sm mt-2">Challenging status quo, delegitimizing authority, or decentering humans.</p>
+                    </button>
+                    <button onclick="selectPath('intent', 'stability', this)" class="flow-node border-2 border-slate-200 p-6 rounded-xl text-left bg-white hover:bg-slate-50">
+                        <span class="block text-xs font-bold uppercase text-green-600 mb-1">Path B</span>
+                        <h3 class="text-xl font-bold text-slate-800">Stability & Coping</h3>
+                        <p class="text-slate-500 text-sm mt-2">Managing eco-anxiety, community bonding, or social regulation.</p>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Step 2: Focus (Hidden initially) -->
+            <div id="step-2" class="mb-12 opacity-30 pointer-events-none transition-opacity duration-500">
+                <div class="flex justify-center mb-6">
+                    <div class="bg-slate-700 text-white px-6 py-2 rounded-full text-sm font-medium">
+                        Analyze Focus of Humor
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <button onclick="selectPath('focus', 'internal', this)" class="flow-node border-2 border-slate-200 p-6 rounded-xl text-left bg-white">
+                        <h3 class="text-lg font-bold text-slate-800">Internal / Cognitive</h3>
+                        <p class="text-slate-500 text-sm mt-1">Processing states, psychic economy, or "script-switching".</p>
+                    </button>
+                    <button onclick="selectPath('focus', 'external', this)" class="flow-node border-2 border-slate-200 p-6 rounded-xl text-left bg-white">
+                        <h3 class="text-lg font-bold text-slate-800">External / Social</h3>
+                        <p class="text-slate-500 text-sm mt-1">Power dynamics, relationships, or institutional authority.</p>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Results Section -->
+            <div id="results" class="mt-8 border-t pt-8">
+                <div id="default-msg" class="text-center text-slate-400 italic">
+                    Complete the classification path above to see the theoretical fit.
+                </div>
+
+                <!-- Result Cards -->
+                <div id="res-sub-int" class="result-card bg-blue-50 border-l-4 border-blue-500 p-6 rounded-r-xl">
+                    <h4 class="text-blue-800 font-bold text-xl mb-2">Primary Frameworks: Linguistic & Ecocritical Theories</h4>
+                    <p class="text-slate-700 mb-4">Your study focuses on <strong>Internal Cognitive Jolts</strong> aimed at <strong>Subversion</strong>.</p>
+                    <ul class="space-y-2 text-slate-600 text-sm">
+                        <li>• <strong>Linguistic:</strong> Look for "bisociation" or "script-switching" that pierces doomsday fatigue.</li>
+                        <li>• <strong>Ecocritical:</strong> Look for moments where anthropocentrism is challenged by exposing human-nature "porousness".</li>
+                    </ul>
+                </div>
+
+                <div id="res-sub-ext" class="result-card bg-indigo-50 border-l-4 border-indigo-500 p-6 rounded-r-xl">
+                    <h4 class="text-indigo-800 font-bold text-xl mb-2">Primary Frameworks: Superiority & Social/Cultural</h4>
+                    <p class="text-slate-700 mb-4">Your study focuses on <strong>External Power Dynamics</strong> aimed at <strong>Subversion</strong>.</p>
+                    <ul class="space-y-2 text-slate-600 text-sm">
+                        <li>• <strong>Superiority:</strong> Humor used as a "weapon of the weak" to delegitimize corporations or deniers.</li>
+                        <li>• <strong>Social/Cultural:</strong> Corroding institutional authority or contesting harmful narratives (e.g., eco-fascism).</li>
+                    </ul>
+                </div>
+
+                <div id="res-sta-int" class="result-card bg-green-50 border-l-4 border-green-500 p-6 rounded-r-xl">
+                    <h4 class="text-green-800 font-bold text-xl mb-2">Primary Frameworks: Relief & Incongruity Theories</h4>
+                    <p class="text-slate-700 mb-4">Your study focuses on <strong>Internal States</strong> aimed at <strong>Stability/Coping</strong>.</p>
+                    <ul class="space-y-2 text-slate-600 text-sm">
+                        <li>• <strong>Relief:</strong> A "pressure valve" for eco-anxiety, releasing repressed tension for psychic economy.</li>
+                        <li>• <strong>Incongruity:</strong> Producing a "controlled smile" or "refined wit" to manage complexity without radical friction.</li>
+                    </ul>
+                </div>
+
+                <div id="res-sta-ext" class="result-card bg-emerald-50 border-l-4 border-emerald-500 p-6 rounded-r-xl">
+                    <h4 class="text-emerald-800 font-bold text-xl mb-2">Primary Frameworks: Social Theory & Superiority (Regulative)</h4>
+                    <p class="text-slate-700 mb-4">Your study focuses on <strong>External Social Order</strong> aimed at <strong>Stability/Coping</strong>.</p>
+                    <ul class="space-y-2 text-slate-600 text-sm">
+                        <li>• <strong>Social/Cultural:</strong> Building "affective publics" and solidarity; acting as a social lubricant.</li>
+                        <li>• <strong>Superiority (Regulative):</strong> Social control through humiliation of those deviating from pro-environmental norms.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="mt-8 flex justify-center">
+                <button onclick="resetFlow()" class="text-sm font-medium text-slate-400 hover:text-slate-600 underline">
+                    Clear Selection & Start Over
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let selection = {
+            intent: null,
+            focus: null
+        };
+
+        function selectPath(type, value, element) {
+            // Remove active state from siblings
+            const container = element.parentElement;
+            container.querySelectorAll('.flow-node').forEach(node => {
+                node.classList.remove('active-path');
+            });
+
+            // Add active state to current
+            element.classList.add('active-path');
+            selection[type] = value;
+
+            if (type === 'intent') {
+                // Enable Step 2
+                const step2 = document.getElementById('step-2');
+                step2.classList.remove('opacity-30', 'pointer-events-none');
+                
+                // If focus was already selected, update results
+                if (selection.focus) updateResults();
+            } else if (type === 'focus') {
+                updateResults();
+            }
+        }
+
+        function updateResults() {
+            document.getElementById('default-msg').style.display = 'none';
+            
+            // Hide all cards
+            document.querySelectorAll('.result-card').forEach(card => card.classList.remove('show'));
+
+            // Logic to show specific card
+            let cardId = '';
+            if (selection.intent === 'subversion' && selection.focus === 'internal') cardId = 'res-sub-int';
+            if (selection.intent === 'subversion' && selection.focus === 'external') cardId = 'res-sub-ext';
+            if (selection.intent === 'stability' && selection.focus === 'internal') cardId = 'res-sta-int';
+            if (selection.intent === 'stability' && selection.focus === 'external') cardId = 'res-sta-ext';
+
+            if (cardId) {
+                document.getElementById(cardId).classList.add('show');
+            }
+        }
+
+        function resetFlow() {
+            selection = { intent: null, focus: null };
+            document.querySelectorAll('.flow-node').forEach(node => node.classList.remove('active-path'));
+            document.getElementById('step-2').classList.add('opacity-30', 'pointer-events-none');
+            document.querySelectorAll('.result-card').forEach(card => card.classList.remove('show'));
+            document.getElementById('default-msg').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
