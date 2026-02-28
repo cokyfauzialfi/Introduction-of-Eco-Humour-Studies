@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eco-Humour Theoretical Matrix</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .matrix-container {
+            display: grid;
+            grid-template-columns: 60px 1fr 1fr;
+            grid-template-rows: auto 1fr 1fr 60px;
+            gap: 12px;
+            height: 600px;
+        }
+        .quadrant {
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        .quadrant:hover {
+            transform: scale(1.02);
+            z-index: 10;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        .y-label {
+            writing-mode: vertical-rl;
+            transform: rotate(180deg);
+        }
+        .theory-tag {
+            font-size: 0.7rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-bottom: 4px;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 p-4 md:p-8 font-sans text-slate-800">
+    <div class="max-w-6xl mx-auto">
+        <header class="mb-8 text-center">
+            <h1 class="text-3xl font-bold text-slate-900 mb-2">Eco-Humour Theoretical Matrix</h1>
+            <p class="text-slate-600">Click a quadrant to explore the patterns of focus and intent.</p>
+        </header>
+
+        <div class="matrix-container bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+            <!-- Top Labels (X Axis) -->
+            <div></div>
+            <div class="text-center font-bold text-teal-700 bg-teal-50 py-2 rounded">INTERNAL / COGNITIVE<br><span class="text-xs font-normal">(Psychic State & Processing)</span></div>
+            <div class="text-center font-bold text-orange-700 bg-orange-50 py-2 rounded">EXTERNAL / SOCIAL<br><span class="text-xs font-normal">(Relationships & Power)</span></div>
+
+            <!-- Row 1: Subversion -->
+            <div class="flex items-center justify-center font-bold text-red-700 bg-red-50 rounded y-label">SUBVERSION & CHANGE</div>
+            
+            <!-- Q1: Internal/Subversion -->
+            <div id="q1" class="quadrant bg-white border-2 border-slate-100 rounded-lg p-4 flex flex-col gap-2" onclick="showDetails('q1')">
+                <span class="theory-tag bg-blue-100 text-blue-700">Linguistic Theory</span>
+                <span class="theory-tag bg-green-100 text-green-700">Ecocritical Theory</span>
+                <p class="text-sm font-medium">Script-Switching & Anthropocentric Challenge</p>
+                <div class="mt-auto text-xs text-slate-400">Pierces doomsday fatigue via bisociation.</div>
+            </div>
+
+            <!-- Q2: External/Subversion -->
+            <div id="q2" class="quadrant bg-white border-2 border-slate-100 rounded-lg p-4 flex flex-col gap-2" onclick="showDetails('q2')">
+                <span class="theory-tag bg-purple-100 text-purple-700">Superiority Theory</span>
+                <span class="theory-tag bg-amber-100 text-amber-700">Social & Cultural</span>
+                <p class="text-sm font-medium">Weapon of the Weak & Power Negotiation</p>
+                <div class="mt-auto text-xs text-slate-400">Corrodes institutional authority & eco-fascism.</div>
+            </div>
+
+            <!-- Row 2: Stability -->
+            <div class="flex items-center justify-center font-bold text-slate-700 bg-slate-100 rounded y-label text-center">STABILITY & COPING</div>
+
+            <!-- Q3: Internal/Stability -->
+            <div id="q3" class="quadrant bg-white border-2 border-slate-100 rounded-lg p-4 flex flex-col gap-2" onclick="showDetails('q3')">
+                <span class="theory-tag bg-rose-100 text-rose-700">Relief Theory</span>
+                <span class="theory-tag bg-indigo-100 text-indigo-700">Incongruity Theory</span>
+                <p class="text-sm font-medium">Pressure Valve & Refined Wit</p>
+                <div class="mt-auto text-xs text-slate-400">Liberates repressed energy; genteel smiles.</div>
+            </div>
+
+            <!-- Q4: External/Stability -->
+            <div id="q4" class="quadrant bg-white border-2 border-slate-100 rounded-lg p-4 flex flex-col gap-2" onclick="showDetails('q4')">
+                <span class="theory-tag bg-purple-100 text-purple-700">Superiority Theory</span>
+                <span class="theory-tag bg-amber-100 text-amber-700">Social & Cultural</span>
+                <p class="text-sm font-medium">Social Control & Community Solidarity</p>
+                <div class="mt-auto text-xs text-slate-400">Maintains order & creates affective publics.</div>
+            </div>
+
+            <!-- Bottom Labels -->
+            <div></div>
+            <div class="col-span-2 flex items-center justify-center text-slate-400 text-sm italic">Focus of Humour (X-Axis)</div>
+        </div>
+
+        <!-- Detail Panel -->
+        <div id="detail-panel" class="mt-8 p-6 bg-white border border-slate-200 rounded-xl shadow-lg hidden">
+            <div class="flex justify-between items-start mb-4">
+                <h2 id="detail-title" class="text-2xl font-bold"></h2>
+                <button onclick="closePanel()" class="text-slate-400 hover:text-slate-600 font-bold">✕</button>
+            </div>
+            <div id="detail-content" class="space-y-4 text-slate-700"></div>
+        </div>
+    </div>
+
+    <script>
+        const data = {
+            q1: {
+                title: "Internal Focus / Subversion Intent",
+                content: `
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div class="p-3 bg-blue-50 rounded">
+                            <h4 class="font-bold text-blue-800">Linguistic (GTVH/SSTH)</h4>
+                            <p class="text-sm">Uses <strong>Script-Switching</strong> to force the brain from a 'Normal' script to an 'Abnormal' crisis script. It pierces doomsday fatigue with a cognitive jolt.</p>
+                        </div>
+                        <div class="p-3 bg-green-50 rounded">
+                            <h4 class="font-bold text-green-800">Ecocritical Theory</h4>
+                            <p class="text-sm">Challenges <strong>Anthropocentrism</strong> at a deep cognitive level, forcing a "reflexive estrangement" that moves beyond human-centric priorities.</p>
+                        </div>
+                    </div>
+                `
+            },
+            q2: {
+                title: "External Focus / Subversion Intent",
+                content: `
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div class="p-3 bg-purple-50 rounded">
+                            <h4 class="font-bold text-purple-800">Superiority (Aggressive)</h4>
+                            <p class="text-sm">Laughter as a <strong>Weapon of the Weak</strong>. It mocks the 'sudden glory' of corrupt officials, making the powerful look 'small and despicable'.</p>
+                        </div>
+                        <div class="p-3 bg-amber-50 rounded">
+                            <h4 class="font-bold text-amber-800">Social & Cultural</h4>
+                            <p class="text-sm"><strong>Corroding Authority</strong>: Satire transforms public frustration into shared social energy, contesting dominant narratives like greenwashing.</p>
+                        </div>
+                    </div>
+                `
+            },
+            q3: {
+                title: "Internal Focus / Stability Intent",
+                content: `
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div class="p-3 bg-rose-50 rounded">
+                            <h4 class="font-bold text-rose-800">Relief Theory</h4>
+                            <p class="text-sm">Laughter as a <strong>Pressure Valve</strong>. It allows for 'Psychic Economy'—releasing the energy spent on repressing eco-anxiety without requiring systemic change.</p>
+                        </div>
+                        <div class="p-3 bg-indigo-50 rounded">
+                            <h4 class="font-bold text-indigo-800">Incongruity Theory</h4>
+                            <p class="text-sm"><strong>Refined Wit</strong>: Produces a 'controlled smile' for a cultivated elite. It recognizes ironies without necessarily aiming to subvert the social order.</p>
+                        </div>
+                    </div>
+                `
+            },
+            q4: {
+                title: "External Focus / Stability Intent",
+                content: `
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div class="p-3 bg-purple-50 rounded">
+                            <h4 class="font-bold text-purple-800">Superiority (Control)</h4>
+                            <p class="text-sm">Laughter as <strong>Social Control</strong>. It humiliates those who deviate from norms to 'restrain eccentricity' and maintain established social orders.</p>
+                        </div>
+                        <div class="p-3 bg-amber-50 rounded">
+                            <h4 class="font-bold text-amber-800">Social & Cultural</h4>
+                            <p class="text-sm"><strong>Community Building</strong>: Creates 'Affective Publics'. Shared jokes act as social lubricant to bridge distances and maintain long-term group cohesion.</p>
+                        </div>
+                    </div>
+                `
+            }
+        };
+
+        function showDetails(id) {
+            const panel = document.getElementById('detail-panel');
+            const title = document.getElementById('detail-title');
+            const content = document.getElementById('detail-content');
+            
+            // Highlight selection
+            document.querySelectorAll('.quadrant').forEach(q => q.classList.replace('border-teal-500', 'border-slate-100'));
+            document.getElementById(id).classList.replace('border-slate-100', 'border-teal-500');
+
+            title.innerText = data[id].title;
+            content.innerHTML = data[id].content;
+            panel.classList.remove('hidden');
+            
+            // Scroll to panel
+            panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        function closePanel() {
+            document.getElementById('detail-panel').classList.add('hidden');
+            document.querySelectorAll('.quadrant').forEach(q => q.classList.replace('border-teal-500', 'border-slate-100'));
+        }
+    </script>
+</body>
+</html>
