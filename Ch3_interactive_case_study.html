@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matrix Quadrant Analysis: The Carbon Paradox</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --primary: #059669;
+            --secondary: #10b981;
+            --dark: #064e3b;
+            --accent: #f59e0b;
+        }
+        body {
+            background-color: #f0fdf4;
+            color: #064e3b;
+        }
+        .quadrant {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            min-height: 250px;
+        }
+        .quadrant:hover {
+            transform: scale(1.02);
+            z-index: 10;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .axis-label {
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #065f46;
+            background: #d1fae5;
+            padding: 4px 12px;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+        }
+    </style>
+</head>
+<body class="min-h-screen p-4 md:p-8">
+    <div class="max-w-6xl mx-auto">
+        <!-- Header Section -->
+        <header class="mb-10 text-center">
+            <h1 class="text-4xl font-black text-emerald-900 mb-2">The "Human Carbon Offset" Paradox</h1>
+            <p class="text-lg text-emerald-700 font-medium">Matrix Quadrant Analysis: Albert A. Oyl in <em>U: The Comedy of Global Warming</em></p>
+            <div class="mt-6 bg-white p-6 rounded-xl shadow-sm border border-emerald-100 italic text-gray-700 relative">
+                <span class="absolute -top-3 left-6 bg-emerald-600 text-white px-3 py-1 rounded text-xs font-bold uppercase">The Monologue</span>
+                "You see, Tivo... Every time you fold my laundry, the planet breathes a little easier. Probably."
+            </div>
+        </header>
+
+        <!-- Matrix Container -->
+        <div class="relative grid grid-cols-1 md:grid-cols-2 gap-4 mb-12">
+            
+            <!-- Horizontal Axis Labels -->
+            <div class="absolute top-1/2 left-0 w-full flex justify-between px-2 -translate-y-1/2 pointer-events-none hidden md:flex">
+                <span class="axis-label -rotate-90 origin-left">Subversion & Change</span>
+                <span class="axis-label rotate-90 origin-right">Stability & Coping</span>
+            </div>
+
+            <!-- Vertical Axis Labels -->
+            <div class="absolute top-0 left-1/2 h-full flex flex-col justify-between py-2 -translate-x-1/2 pointer-events-none hidden md:flex">
+                <span class="axis-label">External Focus</span>
+                <span class="axis-label">Internal Focus</span>
+            </div>
+
+            <!-- Q2: The Satirical Strike -->
+            <div id="q2" class="quadrant bg-white border-2 border-emerald-200 rounded-2xl p-6 flex flex-col hover:border-emerald-500">
+                <div class="flex items-center mb-4">
+                    <span class="bg-emerald-600 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold mr-3">Q2</span>
+                    <h2 class="text-xl font-bold text-emerald-900">The Satirical Strike</h2>
+                </div>
+                <p class="text-sm font-semibold text-emerald-600 uppercase mb-2">Subversion / External</p>
+                <div class="space-y-3">
+                    <p class="text-gray-700 text-sm"><strong class="text-emerald-800">Mechanism:</strong> Superiority Theory as a "weapon of the weak." Al becomes an Object of Repulsion.</p>
+                    <p class="text-gray-700 text-sm"><strong class="text-emerald-800">Effect:</strong> Corrodes corporate authority by exposing the grotesque logical extremes of greenwashing.</p>
+                </div>
+            </div>
+
+            <!-- Q4: The Affective Public -->
+            <div id="q4" class="quadrant bg-white border-2 border-emerald-200 rounded-2xl p-6 flex flex-col hover:border-emerald-500">
+                <div class="flex items-center mb-4">
+                    <span class="bg-blue-600 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold mr-3">Q4</span>
+                    <h2 class="text-xl font-bold text-blue-900">The Affective Public</h2>
+                </div>
+                <p class="text-sm font-semibold text-blue-600 uppercase mb-2">Stability / External</p>
+                <div class="space-y-3">
+                    <p class="text-gray-700 text-sm"><strong class="text-blue-800">Mechanism:</strong> Social Lubricant. Shared laughter builds Community Solidarity against climate despair.</p>
+                    <p class="text-gray-700 text-sm"><strong class="text-blue-800">Effect:</strong> Defines "Insiders" who see the hypocrisy, making the unspeakable topic of displacement manageable.</p>
+                </div>
+            </div>
+
+            <!-- Q1: The Cognitive Jolt -->
+            <div id="q1" class="quadrant bg-white border-2 border-emerald-200 rounded-2xl p-6 flex flex-col hover:border-emerald-500">
+                <div class="flex items-center mb-4">
+                    <span class="bg-amber-500 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold mr-3">Q1</span>
+                    <h2 class="text-xl font-bold text-amber-900">The Cognitive Jolt</h2>
+                </div>
+                <p class="text-sm font-semibold text-amber-600 uppercase mb-2">Subversion / Internal</p>
+                <div class="space-y-3">
+                    <p class="text-gray-700 text-sm"><strong class="text-amber-800">Mechanism:</strong> Script-Switching (Humanitarian vs. Accounting). Bisociation pierces doomsday fatigue.</p>
+                    <p class="text-gray-700 text-sm"><strong class="text-amber-800">Effect:</strong> Reflexive Estrangement; forces viewers to see the Global South as more than a Western backdrop.</p>
+                </div>
+            </div>
+
+            <!-- Q3: The Failed Pressure Valve -->
+            <div id="q3" class="quadrant bg-white border-2 border-emerald-200 rounded-2xl p-6 flex flex-col hover:border-emerald-500">
+                <div class="flex items-center mb-4">
+                    <span class="bg-rose-500 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold mr-3">Q3</span>
+                    <h2 class="text-xl font-bold text-rose-900">The Failed Pressure Valve</h2>
+                </div>
+                <p class="text-sm font-semibold text-rose-600 uppercase mb-2">Stability / Internal</p>
+                <div class="space-y-3">
+                    <p class="text-gray-700 text-sm"><strong class="text-rose-800">Mechanism:</strong> Relief Theory subverted. Al seeks "Psychic Economy" to laugh away his responsibility.</p>
+                    <p class="text-gray-700 text-sm"><strong class="text-rose-800">Effect:</strong> Relief is denied. The audience experiences a "controlled smile" of dark recognition instead of ease.</p>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Conclusion Section -->
+        <section id="conclusion" class="bg-emerald-900 text-white p-8 rounded-3xl shadow-2xl relative overflow-hidden">
+            <div class="absolute top-0 right-0 p-8 opacity-10">
+                <svg width="120" height="120" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+            </div>
+            <h2 class="text-3xl font-black mb-6 flex items-center">
+                <span class="mr-3">Synthesis: Ecological Intelligence</span>
+            </h2>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div>
+                    <p class="text-emerald-100 leading-relaxed mb-4">
+                        This scene acts as a <span class="text-amber-400 font-bold">High-Quadrant performer</span>, predominantly activating the Subversion axes (Q1 & Q2). While it utilizes the social structures of coping, its ultimate purpose is to dismantle them.
+                    </p>
+                    <p class="text-emerald-100 leading-relaxed">
+                        By framing Al A. Oyl as an "Anti-Hero," the playwright transforms the <span class="italic">"Ha!"</span> of absurdity into the <span class="italic text-amber-400 font-bold">"Aha!"</span> of cognitive insight.
+                    </p>
+                </div>
+                <div class="bg-emerald-800/50 p-6 rounded-2xl border border-emerald-700">
+                    <h3 class="text-lg font-bold text-amber-400 mb-2">The Takeaway</h3>
+                    <p class="text-sm text-emerald-500 uppercase font-black mb-3 tracking-widest">Moral Gymnastics</p>
+                    <p class="text-emerald-500 text-sm leading-relaxed">
+                        The "Human Carbon Offset" paradox reveals that modern offsetting is often a performance—a way to preserve the status quo through logical fallacies rather than fundamental change.
+                    </p>
+                </div>
+            </div>
+            <div class="mt-8 pt-6 border-t border-emerald-800 flex justify-between items-center text-xs text-emerald-400">
+                <span>Case Study: Albert A. Oyl</span>
+                <span class="font-mono">ANALYSIS COMPLETE // Q1-Q4 SYNCHRONIZED</span>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Simple interaction to highlight the conclusion based on quadrant clicks
+        document.querySelectorAll('.quadrant').forEach(q => {
+            q.addEventListener('click', () => {
+                const conclusion = document.getElementById('conclusion');
+                conclusion.scrollIntoView({ behavior: 'smooth' });
+                conclusion.classList.add('ring-4', 'ring-emerald-400');
+                setTimeout(() => {
+                    conclusion.classList.remove('ring-4', 'ring-emerald-400');
+                }, 1000);
+            });
+        });
+    </script>
+</body>
+</html>
